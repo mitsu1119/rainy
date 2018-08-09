@@ -4,8 +4,6 @@ i32 a:2;
 i32 main() {
 	add();
 	println(a);
-	a:add();
-	println(a);
 	ret 0;
 }
 
