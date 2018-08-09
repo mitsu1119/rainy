@@ -8,7 +8,8 @@ int main() {
 	printf("parsing...\n");
 	yyparse();
 	printf("end parsing !\n");
+	printf("\n>>>>>>>>>>>>>>>>>>>>>>> start running!\n\n");
 	exeCall(findId("main"));
-	printf("end running!\n");
+	printf("\n<<<<<<<<<<<<<<<<<<<<<<< end running!\n");
 	return r;
 }
