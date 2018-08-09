@@ -46,6 +46,8 @@ skip:
 		// それ以外
 		if(strcmp(yytext, "i32") == 0) {
 			return I32;
+		} else if(strcmp(yytext, "ret") == 0) {
+			return RETURN;
 		} else if(strcmp(yytext, "println") == 0) {
 			return PRINTLN;
 		} else {

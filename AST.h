@@ -3,7 +3,7 @@
 
 // AST のタイプ
 enum ASTtype {
-    LIST_T, NUM_T, I32_T, ID_T, COLON_T, ADD_T, SUB_T, MUL_T, DIV_T, CALL_T, PRINTLN_T, BLOCK_T
+    LIST_T, NUM_T, I32_T, ID_T, COLON_T, ADD_T, SUB_T, MUL_T, DIV_T, CALL_T, RETURN_T, PRINTLN_T, BLOCK_T
 };
 
 // ID 構造体 (変数など

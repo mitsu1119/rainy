@@ -1,0 +1,12 @@
+
+i32 a:2;
+
+i32 main() {
+	add();
+	println(a);
+	ret 0;
+}
+
+i32 add() {
+	ret 2;
+}

@@ -4,6 +4,10 @@
 #include "execute.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <setjmp.h>
+
+// リターン用
+jmp_buf *retbuf;
 
 // 関数の返り値格納用
 int_fast32_t returnVal;
@@ -50,18 +54,28 @@ void exeStatement(AST *p) {
 		case BLOCK_T:
 			exeBlock(p->right);
 			break;
+		case RETURN_T:
+			exeReturn(p->left);
+			break;
 		default:
 			exeExp(p);
 	};
 }
 
-
 // ブロックの実行(ローカル変数なし)
 void exeBlock(AST *body) {
-	for(; body != NULL; body = getNext(body)) {
-		exeStatement(getList(body,0));
+	AST *stat = body;
+	while(stat != NULL) {
+		exeStatement(getList(stat, 0));
+		stat = getNext(stat);
 	}
-	return;
+}
+
+// return の実行(返り値のみ)
+void exeReturn(AST *retv) {
+	returnVal = exeExp(retv);
+	longjmp(*retbuf, 1);				// callfunc に戻る
+	error("ret failed\n");
 }
 
 // プリント
@@ -75,10 +89,21 @@ static void printFunc(AST *args) {
 
 // 関数コール
 int_fast32_t exeCall(Id *func) {
+	jmp_buf retme;
+	jmp_buf *retme_save;
+	int_fast32_t retval;	// 返り値
+
 	printf("calling %s function...\n", func->name);
-	exeStatement(func->funcbody);
+	retme_save = retbuf;
+	retbuf = &retme;
+	if(setjmp(retbuf) != 0) {	// 帰って来たとき
+		retval = returnVal;
+	} else {
+		exeStatement(func->funcbody);
+	}
+	retbuf = retme_save;
 	printf("success calling %s function !!\n", func->name);
-	return 0;
+	return retval;
 }
 
 // exp の計算

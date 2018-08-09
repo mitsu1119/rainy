@@ -86,7 +86,7 @@ AST *getNext(AST *p) {
 AST *addList(AST *list, AST *p) {
 	AST *q;
 	if(list == NULL) return makeAST(LIST_T, p, NULL);
-	q = p;
+	q = list;
 	while(q->right != NULL) q = q->right;
 	q->right = makeAST(LIST_T, p, NULL);
 	return list;

@@ -1,4 +1,4 @@
-%token  NUM I32 ID PRINTLN
+%token  NUM I32 ID PRINTLN RETURN
 %{
 	#include <stdint.h>
 	#include <stdlib.h>
@@ -58,6 +58,8 @@ statement: /* empty */
 		{ $$ = $1; }
 		| block
 		{ $$ = $1; }
+		| RETURN exp ';'
+		{ $$ = makeAST(RETURN_T, $2, NULL); }
 		;
 
 exp: primary_exp
