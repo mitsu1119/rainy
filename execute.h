@@ -3,10 +3,6 @@
 
 // ローカル変数関係
 #define MAX_LOCALVAR 100
-typedef struct _LocalId {
-	Id *var;
-	int_fast32_t val;
-} LocalId;
 
 // 変数関係
 int_fast32_t getVal(Id *var);

@@ -13,5 +13,10 @@ i32 add() {
 	i32 b:5;
 	println(b);
 	i32 c:6;
-	ret c;
+	println(c);
+	c:10;
+	b:100;
+	println(b);
+	println(c);
+	ret b;
 }

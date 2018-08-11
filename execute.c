@@ -10,7 +10,7 @@
 int idp = 0;
 
 // ローカル変数のリスト
-LocalId localId[MAX_LOCALVAR];
+Id *localId[MAX_LOCALVAR];
 
 // リターン用
 jmp_buf *retbuf;
@@ -43,8 +43,8 @@ int_fast32_t getVal(Id *var) {
 	int i;
 	// ローカルの方
 	for(i = idp-1; i>=0; i--) {
-		if(localId[i].var == var) {
-			return localId[i].var->ival;
+		if(localId[i] == var) {
+			return localId[i]->ival;
 		}
 	}
 	return var->ival;
@@ -55,8 +55,8 @@ int_fast32_t setVal(Id *var, int_fast32_t val) {
 	int i;
 	// ローカルの方を見る
 	for(i = idp-1; i>=0; i--) {
-		if(localId[i].var == var) {
-			localId[i].val = val;
+		if(localId[i] == var) {
+			localId[i]->ival = val;
 			return val;
 		}
 	}
@@ -74,8 +74,9 @@ void declareLocalVar(Id *var, AST *initval) {
 		fprintf(stderr, "variable %s is not declared\n", var->name);
 		exit(1);
 	} else {
-		localId[idp].var = getId(var);
-		localId[idp++].var->ival = exeExp(initval);
+		localId[idp] = getId(var);
+		localId[idp++]->ival = exeExp(initval);
+		printf("declare local var %s\n", localId[idp-1]->name);
 	}
 }
 
