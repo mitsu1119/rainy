@@ -90,6 +90,7 @@ void exeStatement(AST *p) {
 			exeReturn(p->left);
 			break;
 		case LOCALVAR_T:
+			declareLocalVar(p->left, p->right);
 			break;
 		default:
 			exeExp(p);

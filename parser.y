@@ -61,7 +61,7 @@ statement: /* empty */
 		| RETURN exp ';'
 		{ $$ = makeAST(RETURN_T, $2, NULL); }
 		| I32 ID ':' exp ';'
-		{ declareLocalVar($2, $4); }
+		{ $$ = makeAST(LOCALVAR_T, $2, $4); }
 		;
 
 exp: primary_exp

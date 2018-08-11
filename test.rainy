@@ -10,7 +10,8 @@ i32 main() {
 }
 
 i32 add() {
-	i32 c:5;
-	println(c);
+	i32 b:5;
+	println(b);
+	i32 c:6;
 	ret c;
 }
