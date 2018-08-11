@@ -6,7 +6,7 @@
 #include "AST.h"
 
 Id IDtable[MAX_ID]; // IDテーブル
-int idp = 0;	// 今のIDの数
+int id_point = 0;	// 今のIDの数
 
 // AST を生成
 AST *makeAST(enum ASTtype type, AST *left, AST *right) {
@@ -27,19 +27,26 @@ AST *makeNumAST(int num) {
 	return p;
 }
 
+// IDテーブルから名前を探しインデックスを返す。なかったら -1
+int searchId(char *name) {
+	int i;
+	for(i=0; i<id_point; i++) {
+		if(strcmp(IDtable[i].name, name) == 0) {
+			return i;
+		}
+	}
+	return -1;
+}
+
 // IDテーブルから名前を検索し返す。なかったら生成
 Id *findId(char *name) {
 	int i;
 	Id *id = NULL;
-	for(i=0; i<idp; i++) {
-		if(strcmp(IDtable[i].name, name) == 0) {
-			id = &IDtable[i];
-			break;
-		}
-	}
-	// 生成
-	if(id == NULL) {
-		id = &IDtable[idp++];
+	int searchind = searchId(name);
+
+	if(searchind != -1) id = &IDtable[searchind];
+	else {
+		id = &IDtable[id_point++];
 		id->name = strdup(name);
 	}
 	return id;

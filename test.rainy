@@ -1,10 +1,8 @@
 
-i32 a:2;
+global i32 a:2;
 
 i32 main() {
-	add();
 	println(a);
-	
 	a:add();
 	println(a);
 
@@ -12,6 +10,7 @@ i32 main() {
 }
 
 i32 add() {
-	a:10;
-	ret 2;
+	i32 c:5;
+	println(c);
+	ret c;
 }

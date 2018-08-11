@@ -50,6 +50,8 @@ skip:
 			return RETURN;
 		} else if(strcmp(yytext, "println") == 0) {
 			return PRINTLN;
+		} else if(strcmp(yytext, "global") == 0) {
+			return GLOBAL;
 		} else {
 			yylval.ast = makeId(yytext);
 			return ID;

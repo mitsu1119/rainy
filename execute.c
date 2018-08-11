@@ -6,6 +6,12 @@
 #include <stdio.h>
 #include <setjmp.h>
 
+// ローカル変数の数格納
+int idp = 0;
+
+// ローカル変数のリスト
+LocalId localId[MAX_LOCALVAR];
+
 // リターン用
 jmp_buf *retbuf;
 
@@ -34,28 +40,56 @@ void declareVar(Id *id, AST *initval) {
 
 // 変数から値を取り出す
 int_fast32_t getVal(Id *var) {
+	int i;
+	// ローカルの方
+	for(i = idp-1; i>=0; i--) {
+		if(localId[i].var == var) {
+			return localId[i].var->ival;
+		}
+	}
 	return var->ival;
 }
 
 // 変数の代入
 int_fast32_t setVal(Id *var, int_fast32_t val) {
+	int i;
+	// ローカルの方を見る
+	for(i = idp-1; i>=0; i--) {
+		if(localId[i].var == var) {
+			localId[i].val = val;
+			return val;
+		}
+	}
+	// グローバル
 	var->ival = val;
 	return val;
 }
 
-
 int_fast32_t exeExp(AST* p);
 void exeBlock(AST *body);
+
+// ローカル変数の宣言
+void declareLocalVar(Id *var, AST *initval) {
+	if(initval == NULL) {
+		fprintf(stderr, "variable %s is not declared\n", var->name);
+		exit(1);
+	} else {
+		localId[idp].var = getId(var);
+		localId[idp++].var->ival = exeExp(initval);
+	}
+}
 
 // 文の実行
 void exeStatement(AST *p) {
 	if(p == NULL) return;
 	switch(p->type) {
 		case BLOCK_T:
-			exeBlock(p->right);
+			exeBlock(p->left);
 			break;
 		case RETURN_T:
 			exeReturn(p->left);
+			break;
+		case LOCALVAR_T:
 			break;
 		default:
 			exeExp(p);
@@ -65,10 +99,14 @@ void exeStatement(AST *p) {
 // ブロックの実行(ローカル変数なし)
 void exeBlock(AST *body) {
 	AST *stat = body;
+	int idpsave = idp;
+
 	while(stat != NULL) {
 		exeStatement(getList(stat, 0));
 		stat = getNext(stat);
 	}
+	idp = idpsave;
+	return;
 }
 
 // return の実行(返り値のみ)
@@ -102,7 +140,6 @@ int_fast32_t exeCall(Id *func) {
 		exeStatement(func->funcbody);
 	}
 	retbuf = retme_save;
-	printf("success calling %s function !!\n", func->name);
 	return retval;
 }
 
