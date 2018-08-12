@@ -16,7 +16,7 @@
 %left '+' '-'
 %left '*' '/'
 
-%type <ast> parameter block statements statement exp primary_exp args
+%type <ast> parameter IDs block statements statement exp primary_exp args
 %type <ast> ID NUM
 
 %start program
@@ -40,7 +40,15 @@ extdef:GLOBAL I32 ID ':' exp ';'	// 変数宣言
 // 関数の宣言するときのパラメータ
 parameter: '(' ')'
 				{ $$ = NULL; }
+				| '(' IDs ')'
+				{ $$ = $2; }
 				;
+
+IDs: ID
+		{ makeList1($1); }
+		| IDs ID
+		{ addList($1, $2); }
+		;
 
 block: '{' statements '}'
 	{ $$ = makeAST(BLOCK_T, $2, NULL); }
@@ -81,6 +89,8 @@ primary_exp: ID
 			| NUM
 			| ID '(' ')' 		// 関数コール
 			{ $$ = makeAST(CALL_T, $1, NULL); }
+			| ID '(' args ')'
+			{ $$ = makeAST(CALL_T, $1, $3); }
 			| '(' exp ')'
 			{ $$ = $2; }
 			| PRINTLN '(' args ')'

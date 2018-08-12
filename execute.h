@@ -13,7 +13,7 @@ void declareLocalVar(Id *var, AST *initval);
 
 // 実行系
 int_fast32_t exeExp(AST* exp);
-int_fast32_t exeCall(Id *func);	// 関数コール、引数なし
+int_fast32_t exeCall(Id *func, AST *arguments);	// 関数コール
 void exeBlock(AST *body);
 void exeStatement(AST *p);
 void exeReturn(AST *retv);

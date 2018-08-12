@@ -128,7 +128,7 @@ static void printFunc(AST *args) {
 }
 
 // 関数コール
-int_fast32_t exeCall(Id *func) {
+int_fast32_t exeCall(Id *func, AST *arguments) {
 	jmp_buf retme;
 	jmp_buf *retme_save;
 	int_fast32_t retval;	// 返り値
@@ -136,6 +136,15 @@ int_fast32_t exeCall(Id *func) {
 	printf("calling %s function...\n", func->name);
 	retme_save = retbuf;
 	retbuf = &retme;
+
+
+	// 引数の受け取り
+	AST *args = arguments;
+	while(args != NULL) {
+		printf("args = %d\n", exeExp(getList(args,0)));
+		args = getNext(args);
+	}
+
 	if(setjmp(retbuf) != 0) {	// 帰って来たとき
 		retval = returnVal;
 	} else {
@@ -164,7 +173,7 @@ int_fast32_t exeExp(AST* p) {
 		case DIV_T:
 			return exeExp(p->left)/exeExp(p->right);
 		case CALL_T:
-			return exeCall(getId(p->left));
+			return exeCall(getId(p->left), p->right);	// p->right は引数のリストのAST
 		case PRINTLN_T:
 			printFunc(p->left);
 			return 0;
