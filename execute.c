@@ -74,7 +74,7 @@ void declareLocalVar(Id *var, AST *initval) {
 		fprintf(stderr, "variable %s is not declared\n", var->name);
 		exit(1);
 	} else {
-		localId[idp] = getId(var);
+		localId[idp] = var;
 		localId[idp++]->ival = exeExp(initval);
 		printf("declare local var %s\n", localId[idp-1]->name);
 	}
@@ -91,7 +91,7 @@ void exeStatement(AST *p) {
 			exeReturn(p->left);
 			break;
 		case LOCALVAR_T:
-			declareLocalVar(p->left, p->right);
+			declareLocalVar(getId(p->left), p->right);
 			break;
 		default:
 			exeExp(p);
