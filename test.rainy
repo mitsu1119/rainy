@@ -3,12 +3,14 @@ global i32 a:2;
 
 i32 main() {
 	println(a);
-	a:add(20,100,20);
+	a:add(20,40,60)+20;
 	println(a);
 	ret 0;
 }
 
 i32 add(b,c,d) {
 	println(b);
-	ret b;
+	println(c);
+	println(d);
+	ret d;
 }

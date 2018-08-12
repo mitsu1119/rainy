@@ -77,7 +77,6 @@ void declareLocalVar(Id *var, AST *initval) {
 	} else {
 		localId[idp] = var;
 		localId[idp++]->ival = exeExp(initval);
-		printf("declare local var %s\n", localId[idp-1]->name);
 	}
 }
 
@@ -146,7 +145,7 @@ int_fast32_t exeCall(Id *func, AST *arguments) {
 			printf("invalid calling function %s\n", func->name);
 			exit(1);
 		}
-		//printf("args = %d\n", exeExp(getList(args,0)));
+		declareLocalVar(getId(getList(params, 0)), getList(args,0));
 		params = getNext(params);
 		args = getNext(args);
 	}
