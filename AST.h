@@ -11,6 +11,7 @@ typedef struct _Id {
     char *name;
     int_fast32_t ival;  // 32bit int
    struct _AST *funcbody;
+   struct _AST *params;
 } Id;
 
 // AST 構造体
@@ -39,6 +40,6 @@ AST *addList(AST *list, AST *p);;
 #define makeList1(x1) makeAST(LIST_T, x1, NULL);
 
 void declareVar(Id *id, AST *initval);
-void defineFunc(Id *func, AST *body);
+void defineFunc(Id *func, AST *parameters, AST *body);
 
 void error(char *str);

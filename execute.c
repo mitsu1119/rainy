@@ -25,7 +25,8 @@ void error(char *str) {
 }
 
 // 関数定義
-void defineFunc(Id *func, AST *body) {
+void defineFunc(Id *func, AST *parameters, AST *body) {
+	func->params = parameters;
 	func->funcbody = body;
 }
 
@@ -137,12 +138,21 @@ int_fast32_t exeCall(Id *func, AST *arguments) {
 	retme_save = retbuf;
 	retbuf = &retme;
 
-
 	// 引数の受け取り
 	AST *args = arguments;
-	while(args != NULL) {
-		printf("args = %d\n", exeExp(getList(args,0)));
+	AST *params = func->params;
+	while(params != NULL) {
+		if(args == NULL) {
+			printf("invalid calling function %s\n", func->name);
+			exit(1);
+		}
+		//printf("args = %d\n", exeExp(getList(args,0)));
+		params = getNext(params);
 		args = getNext(args);
+	}
+	if(args != NULL) {
+		printf("invalid calling function %s\n", func->name);
+		exit(1);
 	}
 
 	if(setjmp(retbuf) != 0) {	// 帰って来たとき

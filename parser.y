@@ -34,7 +34,7 @@ ext_defs: extdef
 extdef:GLOBAL I32 ID ':' exp ';'	// 変数宣言
 		{ declareVar(getId($3), $5); }
 		| I32 ID parameter block 	// 関数定義
-		{ defineFunc(getId($2), $4); }
+		{ defineFunc(getId($2), $3, $4); }
 		;
 
 // 関数の宣言するときのパラメータ
@@ -45,9 +45,9 @@ parameter: '(' ')'
 				;
 
 IDs: ID
-		{ makeList1($1); }
-		| IDs ID
-		{ addList($1, $2); }
+		{ $$ = makeList1($1); }
+		| IDs ',' ID
+		{ $$ = addList($1, $3); }
 		;
 
 block: '{' statements '}'
