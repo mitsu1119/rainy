@@ -18,6 +18,7 @@ skip:
 		case '{':
 		case '}':
 		case ':':
+		case ',':
 		case ';':
 		case EOF:
 			return c;

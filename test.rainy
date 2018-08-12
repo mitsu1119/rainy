@@ -3,7 +3,7 @@ global i32 a:2;
 
 i32 main() {
 	println(a);
-	a:add(20);
+	a:add(20,22,24);
 	println(a);
 
 	ret 0;
