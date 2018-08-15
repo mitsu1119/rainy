@@ -1,4 +1,3 @@
-%token  NUM I32 ID PRINTLN RETURN GLOBAL
 %{
 	#include <stdint.h>
 	#include <stdlib.h>
@@ -7,6 +6,9 @@
 	#include "AST.h"
 
 %}
+
+%token  NUM I32 ID
+%token PRINTLN IF RETURN GLOBAL
 
 %union {
 	AST *ast;
@@ -51,7 +53,7 @@ IDs: ID
 		;
 
 block: '{' statements '}'
-	{ $$ = makeAST(BLOCK_T, $2, NULL); }
+	{ $$ = makeAST(BLOCK_T, $2, NULL);  }
 	;
 
 statements: statement
@@ -66,6 +68,8 @@ statement: /* empty */
 		{ $$ = $1; }
 		| block
 		{ $$ = $1; }
+		| IF '(' exp ')' block
+		{ $$ = makeAST(IF_T, $3, $5); }
 		| RETURN exp ';'
 		{ $$ = makeAST(RETURN_T, $2, NULL); }
 		| I32 ID ':' exp ';'

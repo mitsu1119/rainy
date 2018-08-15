@@ -87,6 +87,9 @@ void exeStatement(AST *p) {
 		case BLOCK_T:
 			exeBlock(p->left);
 			break;
+		case IF_T:
+			if(exeExp(p->left) == 1) exeBlock(p->right->left);
+			break;
 		case RETURN_T:
 			exeReturn(p->left);
 			break;
