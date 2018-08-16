@@ -13,5 +13,5 @@ i32 add(b,c,d) {
 	println(b);
 	println(c);
 	println(d);
-	ret b|c|d;
+	ret b^c^d;
 }
