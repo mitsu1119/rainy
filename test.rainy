@@ -4,9 +4,7 @@ global i32 a:2;
 i32 main() {
 	println(a);
 	a:add(20,40,60)+20;
-	if(1) {
-		println(a);
-	}
+	println(a);
 	ret 0;
 }
 
@@ -15,5 +13,5 @@ i32 add(b,c,d) {
 	println(b);
 	println(c);
 	println(d);
-	ret s;
+	ret b|c|d;
 }

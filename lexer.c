@@ -4,6 +4,7 @@ char yytext[100];
 
 int yylex() {
 	int c, n;
+	int savec;
 	char *p;
 skip:
 	c = getc(stdin);
@@ -17,6 +18,11 @@ skip:
 		case ')':
 		case '{':
 		case '}':
+		case '<':
+		case '>':
+		case '&':
+		case '|':
+		case '^':
 		case ':':
 		case ',':
 		case ';':
@@ -47,6 +53,8 @@ skip:
 		// それ以外
 		if(strcmp(yytext, "i32") == 0) {
 			return I32;
+		} else if() {
+			return '^';
 		} else if(strcmp(yytext, "ret") == 0) {
 			return RETURN;
 		} else if(strcmp(yytext, "println") == 0) {

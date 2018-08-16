@@ -184,6 +184,16 @@ int_fast32_t exeExp(AST* p) {
 			return exeExp(p->left)*exeExp(p->right);
 		case DIV_T:
 			return exeExp(p->left)/exeExp(p->right);
+		case LBRACKET_T:
+			return (exeExp(p->left)<exeExp(p->right));
+		case RBRACKET_T:
+			return (exeExp(p->left)>exeExp(p->right));
+		case AND_T:
+			return (exeExp(p->left)&exeExp(p->right));
+		case OR_T:
+			return (exeExp(p->left)|exeExp(p->right));
+		case XOR_T:
+			return (exeExp(p->left)^exeExp(p->right));
 		case CALL_T:
 			return exeCall(getId(p->left), p->right);	// p->right は引数のリストのAST
 		case PRINTLN_T:

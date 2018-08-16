@@ -7,7 +7,7 @@
 
 %}
 
-%token  NUM I32 ID
+%token NUM I32 ID
 %token PRINTLN IF RETURN GLOBAL
 
 %union {
@@ -17,6 +17,7 @@
 %right ':'
 %left '+' '-'
 %left '*' '/'
+%left '&' '|' '^'
 
 %type <ast> parameter IDs block statements statement exp primary_exp args
 %type <ast> ID NUM
@@ -87,6 +88,16 @@ exp: primary_exp
 	{ $$ = makeAST(MUL_T, $1, $3);}
 	| exp '/' exp
 	{ $$ = makeAST(DIV_T, $1, $3);}
+	| exp '<' exp
+	{ $$ = makeAST(LBRACKET_T, $1, $3); }
+	| exp '>' exp
+	{ $$ = makeAST(RBRACKET_T, $1, $3); }
+	| exp '&' exp
+	{ $$ = makeAST(AND_T, $1, $3); }
+	| exp '|' exp
+	{ $$ = makeAST(OR_T, $1, $3); }
+	| exp '^' exp
+	{ $$ = makeAST(XOR_T, $1, $3); }
 	;
 
 primary_exp: ID
