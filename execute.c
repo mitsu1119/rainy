@@ -174,7 +174,7 @@ int_fast32_t exeExp(AST* p) {
 			return p->ival;
 		case ID_T:
 			return getVal(getId(p));
-		case COLON_T:
+		case EQ_T:
 			return setVal(getId(p->left), exeExp(p->right));
 		case ADD_T:
 			return exeExp(p->left)+exeExp(p->right);

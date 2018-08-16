@@ -14,7 +14,7 @@
 	AST *ast;
 }
 
-%right ':'
+%right '='
 %left '+' '-'
 %left '*' '/'
 %left '&' '|' '^'
@@ -34,7 +34,7 @@ ext_defs: extdef
 		;
 
 // 宣言や定義
-extdef:GLOBAL I32 ID ':' exp ';'	// 変数宣言
+extdef:GLOBAL I32 ID '=' exp ';'	// 変数宣言
 		{ declareVar(getId($3), $5); }
 		| I32 ID parameter block 	// 関数定義
 		{ defineFunc(getId($2), $3, $4); }
@@ -73,13 +73,13 @@ statement: /* empty */
 		{ $$ = makeAST(IF_T, $3, $5); }
 		| RETURN exp ';'
 		{ $$ = makeAST(RETURN_T, $2, NULL); }
-		| I32 ID ':' exp ';'
+		| I32 ID '=' exp ';'
 		{ $$ = makeAST(LOCALVAR_T, $2, $4); }
 		;
 
 exp: primary_exp
-	| ID ':' exp
-	{ $$ = makeAST(COLON_T, $1, $3); }
+	| ID '=' exp
+	{ $$ = makeAST(EQ_T, $1, $3); }
 	| exp '+' exp
 	{ $$ = makeAST(ADD_T, $1, $3);}
 	| exp '-' exp

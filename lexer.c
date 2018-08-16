@@ -10,6 +10,7 @@ skip:
 	c = getc(stdin);
 	if(isspace(c)) goto skip;	// 空白の読み飛ばし
 	switch(c) {
+		case '=':
 		case '+':
 		case '-':
 		case '*':
@@ -23,7 +24,6 @@ skip:
 		case '&':
 		case '|':
 		case '^':
-		case ':':
 		case ',':
 		case ';':
 		case EOF:
@@ -53,8 +53,6 @@ skip:
 		// それ以外
 		if(strcmp(yytext, "i32") == 0) {
 			return I32;
-		} else if() {
-			return '^';
 		} else if(strcmp(yytext, "ret") == 0) {
 			return RETURN;
 		} else if(strcmp(yytext, "println") == 0) {
