@@ -194,6 +194,8 @@ int_fast32_t exeExp(AST* p) {
 			return (exeExp(p->left)|exeExp(p->right));
 		case XOR_T:
 			return (exeExp(p->left)^exeExp(p->right));
+		case EQEQ_T:
+			return (exeExp(p->left)==exeExp(p->right));
 		case CALL_T:
 			return exeCall(getId(p->left), p->right);	// p->right は引数のリストのAST
 		case PRINTLN_T:

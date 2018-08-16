@@ -4,7 +4,9 @@ global i32 a = 2;
 i32 main() {
 	println(a);
 	a = add(20,40,60)+20;
-	println(a);
+	if(a == 20) {
+		println(a);
+	}
 	ret 0;
 }
 

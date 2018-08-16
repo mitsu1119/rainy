@@ -3,12 +3,27 @@
 char yytext[100];
 
 int yylex() {
-	int c, n;
+	int i, c, n;
 	int savec;
 	char *p;
 skip:
 	c = getc(stdin);
+	savec = c;
+
 	if(isspace(c)) goto skip;	// 空白の読み飛ばし
+
+	// ++ や == などの単行演算子として使えるものが続いているものの処理
+	c = getc(stdin);
+	if(savec == c) {
+		printf("==\n");
+		switch(savec) {
+			case '=':
+				return EQEQ;
+		};
+	}
+	ungetc(c, stdin);
+	c = savec;
+
 	switch(c) {
 		case '=':
 		case '+':

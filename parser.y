@@ -9,6 +9,7 @@
 
 %token NUM I32 ID
 %token PRINTLN IF RETURN GLOBAL
+%token EQEQ
 
 %union {
 	AST *ast;
@@ -98,6 +99,8 @@ exp: primary_exp
 	{ $$ = makeAST(OR_T, $1, $3); }
 	| exp '^' exp
 	{ $$ = makeAST(XOR_T, $1, $3); }
+	| exp EQEQ exp
+	{ $$ = makeAST(EQEQ_T, $1, $3); }
 	;
 
 primary_exp: ID
