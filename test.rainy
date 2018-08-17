@@ -1,19 +1,17 @@
 
-global i32 a = 2;
+global i32 a = 0;
 
 i32 main() {
 	println(a);
-	a = add(20,40,60)+20;
-	if(a == 20) {
+
+	while(a < 5) {
+		a = a + num(1);
 		println(a);
 	}
+
 	ret 0;
 }
 
-i32 add(b,c,d) {
-	i32 s = 10;
-	println(b);
-	println(c);
-	println(d);
-	ret b^c^d;
+i32 num(b) {
+	ret b;
 }

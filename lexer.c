@@ -15,7 +15,6 @@ skip:
 	// ++ や == などの単行演算子として使えるものが続いているものの処理
 	c = getc(stdin);
 	if(savec == c) {
-		printf("==\n");
 		switch(savec) {
 			case '=':
 				return EQEQ;
@@ -76,6 +75,8 @@ skip:
 			return GLOBAL;
 		} else if(strcmp(yytext, "if") == 0) {
 			return IF;
+		} else if(strcmp(yytext, "while") == 0) {
+			return WHILE;
 		} else {
 			yylval.ast = makeId(yytext);
 			return ID;

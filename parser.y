@@ -8,7 +8,7 @@
 %}
 
 %token NUM I32 ID
-%token PRINTLN IF RETURN GLOBAL
+%token PRINTLN IF WHILE RETURN GLOBAL
 %token EQEQ
 
 %union {
@@ -72,6 +72,8 @@ statement: /* empty */
 		{ $$ = $1; }
 		| IF '(' exp ')' block
 		{ $$ = makeAST(IF_T, $3, $5); }
+		| WHILE '(' exp ')' block
+		{ $$ = makeAST(WHILE_T, $3, $5); }
 		| RETURN exp ';'
 		{ $$ = makeAST(RETURN_T, $2, NULL); }
 		| I32 ID '=' exp ';'
